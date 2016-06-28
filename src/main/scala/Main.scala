@@ -1,10 +1,21 @@
 object Main extends App {
+
+  /*
+  * First, we start by hardcoding everything - modularity will come later as I figure out how to do that.
+  *
+  * For now, we have one drone named "PointerA", a fixed box-shaped boundary, and a hardcoded velocity.
+  * When a boundary is encountered, the drone bounces off that boundary with same speed, but in the opposite
+  * direction. 
+  *
+  * */
+
   val Name = "PointerA"
   var pointerMap = scala.collection.mutable.Map[String,Int]("x" -> 1, "y" -> 0, "z" -> 0)
   var velocityMap = scala.collection.mutable.Map[String,Int]("x" -> 1,"y" -> 2,"z" -> (-1))
   val boundaryMap = Map[String,Int]("x"->10,"y"->10,"z"->10)
   val runfor = 20
   var movecounter = 0
+
 
 
   println("STARTING READOUT:")
