@@ -1,4 +1,4 @@
-import droid.Droid
+import drone.Drone
 
 object Main extends App {
 
@@ -13,21 +13,21 @@ object Main extends App {
 
   val runFor = 20
 
-  var droidA = new Droid()
-  droidA.create("Droid A")
+  var droneA = new Drone()
+  droneA.create("Drone A")
 
 
   println("STARTING READOUT:")
-  println("Pointer: " + droidA.droidName)
-  println("Starting Position: " + droidA.textPosition())
-  println("Moving at velocity " + droidA.textVelocity())
-  println("Bounds are: " + droidA.textBoundary())
+  println("Pointer: " + droneA.droneName)
+  println("Starting Position: " + droneA.textPosition())
+  println("Moving at velocity " + droneA.textVelocity())
+  println("Bounds are: " + droneA.textBoundary())
   println()
 
-  while (droidA.moveCounter < runFor) {
-    droidA.pointerMove()
-    println( droidA.droidName + "'s Position: " + droidA.textPosition())
+  while (droneA.moveCounter < runFor) {
+    droneA.pointerMove()
+    println( droneA.droneName + "'s Position: " + droneA.textPosition())
   }
 
-  println("Completed movement after " + droidA.moveCounter + " moves.")
+  println("Completed movement after " + droneA.moveCounter + " moves.")
 }

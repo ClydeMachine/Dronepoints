@@ -1,12 +1,12 @@
-package droid
+package drone
 
-class Droid() {
+class Drone() {
   /*
   * Bringing out the Droid related things into this object.
   *
   */
   //Inherent properties
-  var droidName: String = "Default"
+  var droneName: String = "Default"
   var pointerMap = scala.collection.mutable.Map[String,Int]("x" -> 0, "y" -> 0, "z" -> 0)
   var velocityMap = scala.collection.mutable.Map[String,Int]("x" -> 1,"y" -> 0,"z" -> 0)
   //Other properties
@@ -18,7 +18,7 @@ class Droid() {
   def create(name:String) { create(name,1,0,0,1,2,-1) }
 
   def create(name:String, x:Int, y:Int, z:Int, velx:Int, vely:Int, velz:Int) {
-    droidName = name
+    droneName = name
     pointerMap = scala.collection.mutable.Map[String,Int]("x" -> x, "y" -> y, "z" -> z)
     velocityMap = scala.collection.mutable.Map[String,Int]("x" -> velx,"y" -> vely,"z" -> velz)
   }
