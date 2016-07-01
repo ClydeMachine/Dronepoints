@@ -11,7 +11,7 @@ class Drone() {
   var velocityMap = scala.collection.mutable.Map[String,Int]("x" -> 1,"y" -> 0,"z" -> 0)
   //Other properties
   var moveCounter = 0
-  val boundaryMap = Map[String,Int]("x"->10,"y"->10,"z"->10) //will need to move this out
+
 
   def create() { create("PointerA") }
 
@@ -48,7 +48,13 @@ class Drone() {
 
   def textVelocity():String = { "(" + velocityMap("x") + "," + velocityMap("y") + "," + velocityMap("z") + ")" }
 
-  def textBoundary():String = { "(+/-" + math.abs(boundaryMap("x"))/2 + ", +/-" + math.abs(boundaryMap("y"))/2 + ", +/-"+ math.abs(boundaryMap("z"))/2 + ")" }
+  def getPosition():scala.collection.mutable.Map[String,Int] = {
+    pointerMap
+  }
+
+  def getVelocity():scala.collection.mutable.Map[String,Int] = {
+    velocityMap
+  }
 
   /*  def detectCollision():Int = { //sets up collision detection of 1,2,4,3,5,6,7 for x,y,z,xy,xz,yz,xyz
       var collide: Int = 0

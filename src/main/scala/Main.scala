@@ -1,3 +1,4 @@
+import common.boundary
 import drone.Drone
 
 object Main extends App {
@@ -12,16 +13,16 @@ object Main extends App {
   * */
 
   val runFor = 20
-
+  var container = new boundary()
   var droneA = new Drone()
-  droneA.create("Drone A")
 
+  droneA.create("Drone A")
 
   println("STARTING READOUT:")
   println("Pointer: " + droneA.droneName)
   println("Starting Position: " + droneA.textPosition())
   println("Moving at velocity " + droneA.textVelocity())
-  println("Bounds are: " + droneA.textBoundary())
+  println("Bounds are: " + container.textBoundary())
   println()
 
   while (droneA.moveCounter < runFor) {
