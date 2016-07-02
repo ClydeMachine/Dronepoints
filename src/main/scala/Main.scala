@@ -10,33 +10,34 @@ object Main extends App {
   * direction.
   * */
   val runFor = 20
-  var moveCounter = 0
+  var moveCounter = 1
   var container = new boundary()
-  var droneA = new Drone()
-  var droneB = new Drone()
   var drones = scala.collection.mutable.ArrayBuffer[Drone]()
 
-  drones += droneA
-  drones += droneB
+  while (drones.size != 3){ //Just have to change this to whatever number of drones you want.
+    drones += new Drone()
+  }
 
   drones(0).create("Drone A")
   drones(1).create("Drone B", x = 2, y = -5, z = 1)
+  drones(2).create("Drone C", velx = 2, vely = -2, velz = 1, x = -5, y = -5, z = -5)
 
   container.create(radius = 10)
 
   println("STARTING READOUT:")
   for(i <- drones.indices){
     println("Pointer: " + drones(i).droneName)
-    println("Moving at velocity " + drones(i).textVelocity()) }
+    println("Moving from " + drones(i).textPosition() + " with velocity " + drones(i).textVelocity())
+  }
   println("Bounds are: " + container.textBoundary())
   println()
 
-  while (moveCounter < runFor) {
+  while (moveCounter <= runFor) {
+    printf("---------MOVE %d---------\n", moveCounter)
     for (i <- drones.indices) {
       container.validMove(drones(i))
       println(drones(i).droneName + "'s Position: " + drones(i).textPosition())
     }
-
     moveCounter += 1
   }
 
