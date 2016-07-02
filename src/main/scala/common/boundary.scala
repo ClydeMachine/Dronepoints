@@ -1,7 +1,6 @@
 package common
 
 import drone.Drone
-
 /**
   * Created by Ghezra on 6/30/2016.
   */
@@ -10,53 +9,30 @@ class boundary {
   var boundaryRadius:Int = 0
   var boundaryMap = Map[String,Int]("x"->0,"y"->0,"z"->0)
 
-  def create() {
-    create(1,5)
-  }
-
-  def create(shape:Int, radius:Int) {
+  def create(shape:Int = 1, radius:Int = 5) {
     boundaryShape = shape
     boundaryRadius = radius
     boundaryMap = Map[String,Int]("x"->(boundaryRadius),"y"->(boundaryRadius),"z"->(boundaryRadius))
   }
 
-  def validMove(body:Drone): Boolean ={
-    val pointerMap = body.getPosition()
-    val velocityMap = body.getVelocity()
-
-    if (math.abs(pointerMap("x")) >= (math.abs(boundaryMap("x"))/2)) {
-      print("OUT OF BOUNDS ON X COORDINATE, ")
-      velocityMap("x") = -1 * velocityMap("x")
+  def validMove(body:Drone) {
+    for(ch <- "xyz"){
+      if(math.abs(body.pointerMap(ch.toString)) >= boundaryMap(ch.toString)){
+        print("OUT OF BOUNDS ON " + ch + "COORDINATE, ")
+        body.velocityMap(ch.toString) = -1 * body.velocityMap(ch.toString)
+      }
+      body.pointerMap(ch.toString) += body.velocityMap(ch.toString)
     }
-    if (math.abs(pointerMap("y")) >= (math.abs(boundaryMap("y"))/2)) {
-      print("OUT OF BOUNDS ON Y COORDINATE, ")
-      velocityMap("y") = -1 * velocityMap("y")
-    }
-    if (math.abs(pointerMap("z")) >= (math.abs(boundaryMap("z"))/2)) {
-      print("OUT OF BOUNDS ON Z COORDINATE, ")
-      velocityMap("z") = -1 * velocityMap("z")
-    }
-
-    pointerMap("x") += velocityMap("x")
-    pointerMap("y") += velocityMap("y")
-    pointerMap("z") += velocityMap("z")
-
-
-
   }
 
   def detectCollision(body:Drone):Int = { //sets up collision detection of 1,2,4,3,5,6,7 for x,y,z,xy,xz,yz,xyz
-    val pointerMap = body.getPosition()
-    var collide: Int = 0
-    if (math.abs(pointerMap("x")) >= (math.abs(boundaryMap("x"))/2))
-      collide = 1
-    if (math.abs(pointerMap("y")) >= (math.abs(boundaryMap("y"))/2))
-      collide += 2
-    if (math.abs(pointerMap("z")) >= (math.abs(boundaryMap("z"))/2))
-      collide += 4
+    var collide = 0
+    if (body.pointerMap("x") >= boundaryMap("x")) {collide = 1}
+    if (body.pointerMap("y") >= boundaryMap("y")) {collide += 2}
+    if (body.pointerMap("z") >= boundaryMap("z")) {collide += 4}
     collide
   }
 
-  def textBoundary():String = { "(+/-" + math.abs(boundaryMap("x"))/2 + ", +/-" + math.abs(boundaryMap("y"))/2 + ", +/-"+ math.abs(boundaryMap("z"))/2 + ")" }
+  def textBoundary():String = { "(+/-" + boundaryMap("x") + ", +/-" + boundaryMap("y") + ", +/-"+ boundaryMap("z") + ")" }
 
 }
