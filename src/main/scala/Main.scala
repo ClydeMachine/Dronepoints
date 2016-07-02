@@ -9,25 +9,35 @@ object Main extends App {
   * When a boundary is encountered, the drone bounces off that boundary with same speed, but in the opposite
   * direction.
   * */
-  val runFor = 100
+  val runFor = 20
   var moveCounter = 0
   var container = new boundary()
   var droneA = new Drone()
+  var droneB = new Drone()
+  var drones = scala.collection.mutable.ArrayBuffer[Drone]()
 
-  droneA.create("Drone A")
-  container.create(radius = 50)
+  drones += droneA
+  drones += droneB
+
+  drones(0).create("Drone A")
+  drones(1).create("Drone B", x = 2, y = -5, z = 1)
+
+  container.create(radius = 10)
 
   println("STARTING READOUT:")
-  println("Pointer: " + droneA.droneName)
-  println("Starting Position: " + droneA.textPosition())
-  println("Moving at velocity " + droneA.textVelocity())
+  for(i <- drones.indices){
+    println("Pointer: " + drones(i).droneName)
+    println("Moving at velocity " + drones(i).textVelocity()) }
   println("Bounds are: " + container.textBoundary())
   println()
 
   while (moveCounter < runFor) {
-    container.validMove(droneA)
+    for (i <- drones.indices) {
+      container.validMove(drones(i))
+      println(drones(i).droneName + "'s Position: " + drones(i).textPosition())
+    }
+
     moveCounter += 1
-    println( droneA.droneName + "'s Position: " + droneA.textPosition())
   }
 
   println("Completed movement after " + moveCounter + " moves.")
