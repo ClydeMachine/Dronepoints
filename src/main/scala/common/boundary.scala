@@ -16,7 +16,6 @@ class boundary {
   def validMove(body:Drone) {
     for(ch <- "xyz"){  //this reflection isn't accurate. Will have to rewrite so the object actually hits the wall instead of turning around prior to actually hitting
       if(math.abs(body.pointerMap(ch.toString) + body.velocityMap(ch.toString)) >= boundaryMap(ch.toString)){
-        print(body.droneName + " IS OUT OF BOUNDS ON " + ch.toUpper + " COORDINATE, ")
         body.velocityMap(ch.toString) = -1 * body.velocityMap(ch.toString)
       }
       body.pointerMap(ch.toString) += body.velocityMap(ch.toString)

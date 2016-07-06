@@ -1,5 +1,9 @@
+import java.util.Random
+
 import common.boundary
 import drone.Drone
+
+import scala.io.StdIn
 
 object Main extends App {
   /*
@@ -9,37 +13,67 @@ object Main extends App {
   * When a boundary is encountered, the drone bounces off that boundary with same speed, but in the opposite
   * direction.
   * */
-  val runFor = 20
+  val runFor = 10000
   var moveCounter = 1
   var container = new boundary()
   var drones = scala.collection.mutable.ArrayBuffer[Drone]()
 
-  while (drones.size != 3){ //Just have to change this to whatever number of drones you want.
-    drones += new Drone()
+  def randomPosition(radius:Int): Int ={
+    (math.random*radius*2).toInt - radius
   }
 
-  drones(0).create("Drone A")
-  drones(1).create("Drone B", x = 2, y = -5, z = 1)
-  drones(2).create("Drone C", velx = 2, vely = -2, velz = 1, x = -5, y = -5, z = -5)
+  def randomVelocity(): Int ={
+    (math.random*10).toInt - 5
+  }
 
-  container.create(radius = 10)
+  print("Enter in container radius: ")
+  val radius = StdIn.readInt()
+  print("\n")
+  container.create(radius)
+  print("Enter # of drones: ")
+  val numOfDrones = StdIn.readInt()
+  println()
+
+  while (drones.size != numOfDrones){ //Just have to change this to whatever number of drones you want.
+    drones += new Drone()
+    drones(drones.size - 1).create("Drone " + drones.size,
+      randomPosition(radius), randomPosition(radius), randomPosition(radius),
+      randomVelocity(), randomVelocity(), randomVelocity() )
+  }
+
+
 
   println("STARTING READOUT:")
   for(i <- drones.indices){
-    println("Pointer: " + drones(i).droneName)
+    print("Pointer: " + drones(i).droneName + " ")
     println("Moving from " + drones(i).textPosition() + " with velocity " + drones(i).textVelocity())
   }
   println("Bounds are: " + container.textBoundary())
   println()
 
   while (moveCounter <= runFor) {
-    printf("---------MOVE %d---------\n", moveCounter)
     for (i <- drones.indices) {
       container.validMove(drones(i))
-      println(drones(i).droneName + "'s Position: " + drones(i).textPosition())
     }
     moveCounter += 1
+    var newDrones = scala.collection.mutable.ArrayBuffer[Drone]()
+    if (drones.size != 1) {
+      for (i <- drones.indices; j <- i until drones.size if j != i) {
+        if (drones(i).pointerMap == drones(j).pointerMap) {
+          newDrones += drones(i)
+          newDrones += drones(j)
+        }
+      }
+      for(i <- newDrones.indices) {
+        drones -= newDrones(i)
+      }
+    }
   }
-
-  println("Completed movement after " + moveCounter + " moves.")
+  println("Simluation finished, printing status of final positions: ")
+  for(i <- drones.indices){
+    print("Pointer: " + drones(i).droneName + " ")
+    println("Moving from " + drones(i).textPosition() + " with velocity " + drones(i).textVelocity())
+  }
+  println("Completed movement after " + runFor + " moves. Number of drones left: " + drones.size + "/" + numOfDrones)
 }
+
